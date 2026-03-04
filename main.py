@@ -1,8 +1,11 @@
-from logger import log_state
+from logger import log_state, log_event
 from constants import *
-from circleshape import *
-from player import *
+from circleshape import CircleShape
+from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 import pygame
+import sys
 
 def main():
     #print("Hello from asteroids!")
@@ -15,7 +18,16 @@ def main():
     clock = pygame.time.Clock();
     dt = 0;
 
+    updatable = pygame.sprite.Group();
+    drawable = pygame.sprite.Group();
+    asteroids = pygame.sprite.Group();
+    Player.containers = (updatable,drawable);
+    Asteroid.containers = (updatable,drawable,asteroids);
+    AsteroidField.containers = (updatable);
+    
     ship = Player(SCREEN_WIDTH/2,SCREEN_HEIGHT/2);
+    rocks = AsteroidField();
+
     i1 = 1;
     while (i1 == 1):
         log_state();
@@ -23,7 +35,15 @@ def main():
             if event.type == pygame.QUIT:
                 return
         screen.fill("black");
-        ship.draw(screen);
+        for object in updatable:
+            object.update(dt);
+        for object in drawable:
+            object.draw(screen);
+        for object in asteroids:
+            if ship.collides_with(object):
+                log_event("player_hit");
+                print("Game over!")
+                sys.exit()
         pygame.display.flip();
         dt = clock.tick(60) / 1000;
         print(dt);
