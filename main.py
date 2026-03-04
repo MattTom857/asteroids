@@ -1,9 +1,8 @@
-from constants import *
-import pygame
 from logger import log_state
-
-pygame.init()
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+from constants import *
+from circleshape import *
+from player import *
+import pygame
 
 def main():
     #print("Hello from asteroids!")
@@ -11,6 +10,12 @@ def main():
     print(f"Screen width: {SCREEN_WIDTH}")
     print(f"Screen height: {SCREEN_HEIGHT}")
 
+    pygame.init()
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    clock = pygame.time.Clock();
+    dt = 0;
+
+    ship = Player(SCREEN_WIDTH/2,SCREEN_HEIGHT/2);
     i1 = 1;
     while (i1 == 1):
         log_state();
@@ -18,8 +23,10 @@ def main():
             if event.type == pygame.QUIT:
                 return
         screen.fill("black");
-        pygame.display.flip();            
-
+        ship.draw(screen);
+        pygame.display.flip();
+        dt = clock.tick(60) / 1000;
+        print(dt);
 
 if __name__ == "__main__":
     main()
