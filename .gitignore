@@ -1,0 +1,16 @@
+# Assignment 2.2
+game_state.jsonl
+
+# Assignment 4.2
+game_events.jsonl
+
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
